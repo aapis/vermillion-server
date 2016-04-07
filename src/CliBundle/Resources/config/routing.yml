@@ -1,0 +1,3 @@
+cli_homepage:
+    path:     /
+    defaults: { _controller: CliBundle:Default:index }
