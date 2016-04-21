@@ -1,3 +1,12 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+cli_homepage:
+    path:     /
+    defaults: { _controller: CliBundle:Default:index }
+
+api_update:
+    path: /api/update
+    methods: [POST]
+    defaults: { _controller: CliBundle:Update:index }

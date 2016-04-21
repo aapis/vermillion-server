@@ -1,3 +1,7 @@
 cli_homepage:
     path:     /
     defaults: { _controller: CliBundle:Default:index }
+
+api_update:
+    path: /api/update
+    defaults: { _controller: CliBundle:UpdateController:index }
