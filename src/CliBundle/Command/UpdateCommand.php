@@ -11,14 +11,16 @@ class UpdateCommand extends ContainerAwareCommand {
     protected function configure(){
         $this
             ->setName('update:site')
+            ->addOption('site', null, InputOption::VALUE_REQUIRED, 'Which site to update')
             ->setDescription('Deploy updates from the SCM repository')
             ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output){
-        // - download CMS (wordpress/etc) if required
-        // - new folder in /repos
-        // - git init --bare
-        return "success";
+        // - chdir to the requested site
+        //  - use the config/directories.yml file to determine where
+        // - git pull
+        var_dump($input->getOption('site'));
+        return 0;
     }
 }

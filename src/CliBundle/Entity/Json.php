@@ -6,6 +6,7 @@
         protected $_message;
         protected $_data;
         protected $_title;
+        protected $_code;
 
         public function getMessage(){
             return $this->_message;
@@ -19,6 +20,10 @@
             return $this->_title;
         }
 
+        public function getCode(){
+            return $this->_code;
+        }
+
         public function setMessage($input){
             $this->_message = $input;
         }
@@ -29,6 +34,10 @@
 
         public function setTitle($input){
             $this->_title = $input;
+        }
+
+        public function setCode($input){
+            $this->_code = $input;
         }
     }
 

@@ -7,6 +7,6 @@ cli_homepage:
     defaults: { _controller: CliBundle:Default:index }
 
 api_update:
-    path: /api/update
+    path: /api/update/{slug}
     methods: [POST]
     defaults: { _controller: CliBundle:Update:index }
