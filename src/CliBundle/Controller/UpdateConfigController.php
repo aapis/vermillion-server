@@ -11,12 +11,12 @@ use FOS\RestBundle\Controller\FOSRestController;
 use JMS\Serializer\SerializerBuilder;
 use CliBundle\Entity\Json;
 
-class UpdateController extends FOSRestController
+class UpdateConfigController extends FOSRestController
 {
-    const COMMAND = 'update:site';
+    const COMMAND = 'config:update';
 
-    public function indexAction($slug) {
-        $exitCode = $this->_get_command_exit_code($slug);
+    public function indexAction() {
+        $exitCode = $this->_get_command_exit_code();
         $json = new Json();
 
         if($exitCode === 0){
@@ -34,14 +34,13 @@ class UpdateController extends FOSRestController
         return $this->handleView($view);
     }
 
-    private function _get_command_exit_code($slug) {
+    private function _get_command_exit_code() {
         $kernel = $this->get('kernel');
         $application = new Application($kernel);
         $application->setAutoExit(false);
 
         $input = new ArrayInput(array(
            'command' => self::COMMAND,
-           '--site' => $slug,
         ));
 
         return $application->run($input, new BufferedOutput());

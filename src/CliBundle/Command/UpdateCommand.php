@@ -1,4 +1,5 @@
 <?php
+
 namespace CliBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -6,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class UpdateCommand extends ContainerAwareCommand {
     protected function configure(){
@@ -20,7 +22,21 @@ class UpdateCommand extends ContainerAwareCommand {
         // - chdir to the requested site
         //  - use the config/directories.yml file to determine where
         // - git pull
-        var_dump($input->getOption('site'));
-        return 0;
+        $search_path = getcwd();
+        $directories = Yaml::parse(file_get_contents($search_path .'/../src/CliBundle/Resources/config/directories.yml'));
+        $site = $input->getOption('site');
+        $exit = 1;
+
+        for($i = 0; $i < sizeof($directories); $i++){
+            preg_match('/'. preg_quote($site) .'\b/', $directories[$i], $matches);
+
+            if(sizeof($matches) > 0){
+                chdir($directories[$i]);
+                
+                $exit = shell_exec('git pull --quiet &> /dev/null');
+            }
+        }
+
+        return $exit;
     }
 }

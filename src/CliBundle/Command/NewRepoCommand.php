@@ -1,5 +1,4 @@
 <?php
-// THIS WILL BE A SERVER COMMAND, NOT A CLIENT COMMAND
 namespace CliBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;

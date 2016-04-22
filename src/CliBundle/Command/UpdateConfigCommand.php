@@ -17,12 +17,10 @@ class UpdateConfigCommand extends ContainerAwareCommand {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output){
-        $output->writeln('<comment>WARNING: This file is automatically updated by executing the `update_config` function</comment>');
-
         // find and format the contents of the config file
         $directories = $this->_build_directory_list();
         $formatted = "---\n";
-        $formatted .= sprintf(" - \"%s\"", implode($directories, "\"\n - \""));
+        $formatted .= sprintf("- \"%s\"", implode($directories, "\"\n- \""));
 
         // find the configuration file
         $configDirectories = array(__DIR__.'/../Resources/config');
@@ -33,15 +31,17 @@ class UpdateConfigCommand extends ContainerAwareCommand {
         $result = fwrite($fh, $formatted);
         fclose($fh);
 
-        if(!$result){
-            $output->writeln('<error>Config file could not be updated</error>');
+        // since we are returning numeric exit codes we must account for 0 bytes
+        // being written
+        if(false === $result){
+            return 1;
         }else {
-            $output->writeln(sprintf("<info>Config file updated:</info>\n%s", $file[0]));
+            return 0;
         }
     }
 
     private function _build_directory_list(){
-        $search_path = getenv('BASE_PATH');
+        $search_path = '/Users/prieber/Work/';
         $paths = array();
 
         chdir($search_path);
