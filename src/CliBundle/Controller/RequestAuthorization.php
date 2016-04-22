@@ -1,10 +1,10 @@
 <?php
 
-namespace CliBundle\Entity;
+namespace CliBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class RequestAuthentication {
+class RequestAuthorization {
     protected $success = false;
     protected $message;
 
@@ -27,7 +27,11 @@ class RequestAuthentication {
     private function _validateKey($secret){
         $key = $this->_request->headers->get('x-vermillion-key');
 
-        $this->success = ($key === sha1($secret));
+        if(version_compare(PHP_VERSION, '5.6.0') >= 0){
+            $this->success = hash_equals($key, sha1($secret));
+        }else {
+            $this->success = ($key === sha1($secret));
+        }
 
         if(!$this->success){
             $this->message = "Invalid authentication key";

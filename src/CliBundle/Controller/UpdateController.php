@@ -10,14 +10,13 @@ use Symfony\Component\Console\Output\NullOutput;
 use FOS\RestBundle\Controller\FOSRestController;
 use JMS\Serializer\SerializerBuilder;
 use CliBundle\Entity\Json;
-use CliBundle\Entity\RequestAuthentication;
 
 class UpdateController extends FOSRestController
 {
     const COMMAND = 'update:site';
 
     public function indexAction($slug) {
-        $verify = new RequestAuthentication($this->getParameter('secret'));
+        $verify = $this->get('request_authorization');
         if(!$verify->authenticated()){
             $error = new Json();
             $error->setMessage($verify->getMessage());
