@@ -10,12 +10,23 @@ use Symfony\Component\Console\Output\NullOutput;
 use FOS\RestBundle\Controller\FOSRestController;
 use JMS\Serializer\SerializerBuilder;
 use CliBundle\Entity\Json;
+use CliBundle\Entity\RequestAuthentication;
 
 class UpdateConfigController extends FOSRestController
 {
     const COMMAND = 'config:update';
 
     public function indexAction() {
+        $verify = new RequestAuthentication($this->getParameter('secret'));
+        if(!$verify->authenticated()){
+            $error = new Json();
+            $error->setMessage($verify->getMessage());
+            $error->setCode(500);
+
+            $error_view = $this->view($error, $error->getCode());
+            return $this->handleView($error_view);
+        }
+
         $exitCode = $this->_get_command_exit_code();
         $json = new Json();
 
