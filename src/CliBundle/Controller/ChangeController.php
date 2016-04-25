@@ -15,7 +15,7 @@ class ChangeController extends FOSRestController
 {
     const COMMAND = 'change:branch';
 
-    public function indexAction() {
+    public function indexAction($slug, $branch) {
         $verify = $this->get('request_authorization');
         if(!$verify->authenticated()){
             $error = new Json();
@@ -26,8 +26,9 @@ class ChangeController extends FOSRestController
             return $this->handleView($error_view);
         }
 
-        $exitCode = $this->_get_command_exit_code();
+        $exitCode = $this->_get_command_exit_code($slug, $branch);
         $json = new Json();
+        var_dump($exitCode);
 
         if($exitCode === 0){
             $json->setMessage("It worked");
@@ -44,13 +45,15 @@ class ChangeController extends FOSRestController
         return $this->handleView($view);
     }
 
-    private function _get_command_exit_code() {
+    private function _get_command_exit_code($slug, $branch) {
         $kernel = $this->get('kernel');
         $application = new Application($kernel);
         $application->setAutoExit(false);
 
         $input = new ArrayInput(array(
            'command' => self::COMMAND,
+           '--site' => $slug,
+           '--branch' => $branch,
         ));
 
         return $application->run($input, new BufferedOutput());

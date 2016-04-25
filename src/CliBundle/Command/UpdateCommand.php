@@ -31,9 +31,14 @@ class UpdateCommand extends ContainerAwareCommand {
             preg_match('/'. preg_quote($site) .'\b/', $directories[$i], $matches);
 
             if(sizeof($matches) > 0){
-                chdir($directories[$i]);
-                
-                $exit = shell_exec('git pull --quiet &> /dev/null');
+                if(strlen($matches[0]) > 0){
+                    chdir($directories[$i]);
+                    
+                    $process = new Process('git pull --quiet &> /dev/null');
+                    $process->run();
+
+                    $exit = $process->isSuccessful();
+                }
             }
         }
 

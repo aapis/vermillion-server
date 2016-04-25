@@ -6,17 +6,19 @@ cli_homepage:
     path:     /
     defaults: { _controller: CliBundle:Default:index }
 
+# update commands
 api_update:
     path: /api/update/{slug}
     methods: [POST]
     defaults: { _controller: CliBundle:Update:index }
 
 api_update_config:
-    path: /api/update_config/
+    path: /api/update_config
     methods: [POST]
     defaults: { _controller: CliBundle:UpdateConfig:index }
 
-api_update_config:
-    path: /api/change/{slug}/branch/
+# change commands
+api_change_branch:
+    path: /api/change_branch/{slug}/{branch}
     methods: [POST]
     defaults: { _controller: CliBundle:Change:index }
