@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class ChangeCommand extends ContainerAwareCommand {
     protected function configure(){
