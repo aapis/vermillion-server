@@ -13,7 +13,7 @@ use CliBundle\Entity\Json;
 
 class UpdateConfigController extends FOSRestController
 {
-    const COMMAND = 'config:update';
+    const COMMAND = 'vermillion:update-config';
 
     public function indexAction() {
         $verify = $this->get('request_authorization');

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DatabaseSyncCommand extends ContainerAwareCommand {
     protected function configure(){
         $this
-            ->setName('sync:db')
+            ->setName('vermillion:sync-db')
             ->setDescription('Update the configuration file')
             ;
     }

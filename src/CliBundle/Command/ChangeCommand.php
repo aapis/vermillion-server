@@ -14,7 +14,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class ChangeCommand extends ContainerAwareCommand {
     protected function configure(){
         $this
-            ->setName('change:branch')
+            ->setName('vermillion:change-branch')
             ->addOption('branch', null, InputOption::VALUE_REQUIRED, 'Branch to change to')
             ->addOption('site', null, InputOption::VALUE_REQUIRED, 'Which site to update')
             ->setDescription('Change branches')

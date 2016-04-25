@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ClientBackupCommand extends ContainerAwareCommand {
     protected function configure(){
         $this
-            ->setName('backup:client')
+            ->setName('vermillion:backup')
             ->setDescription('Update the configuration file')
             ;
     }

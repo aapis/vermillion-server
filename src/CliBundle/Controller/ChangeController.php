@@ -13,7 +13,7 @@ use CliBundle\Entity\Json;
 
 class ChangeController extends FOSRestController
 {
-    const COMMAND = 'change:branch';
+    const COMMAND = 'vermillion:change-branch';
 
     public function indexAction($slug, $branch) {
         $verify = $this->get('request_authorization');

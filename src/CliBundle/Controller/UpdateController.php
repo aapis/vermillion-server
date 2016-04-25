@@ -13,7 +13,7 @@ use CliBundle\Entity\Json;
 
 class UpdateController extends FOSRestController
 {
-    const COMMAND = 'update:site';
+    const COMMAND = 'vermillion:update-site';
 
     public function indexAction($slug) {
         $verify = $this->get('request_authorization');

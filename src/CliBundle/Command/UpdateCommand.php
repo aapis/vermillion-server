@@ -12,7 +12,7 @@ use Symfony\Component\Yaml\Yaml;
 class UpdateCommand extends ContainerAwareCommand {
     protected function configure(){
         $this
-            ->setName('update:site')
+            ->setName('vermillion:update-site')
             ->addOption('site', null, InputOption::VALUE_REQUIRED, 'Which site to update')
             ->setDescription('Deploy updates from the SCM repository')
             ;

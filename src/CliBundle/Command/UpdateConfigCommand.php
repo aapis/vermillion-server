@@ -11,7 +11,7 @@ use Symfony\Component\Config\FileLocator;
 class UpdateConfigCommand extends ContainerAwareCommand {
     protected function configure(){
         $this
-            ->setName('config:update')
+            ->setName('vermillion:update-config')
             ->setDescription('Update the configuration file')
             ;
     }
