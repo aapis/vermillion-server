@@ -37,7 +37,9 @@ class UpdateCommand extends ContainerAwareCommand {
                     $process = new Process('git pull --quiet &> /dev/null');
                     $process->run();
 
-                    $exit = $process->isSuccessful();
+                    if($process->isSuccessful()){
+                        $exit = 0;
+                    }
                 }
             }
         }

@@ -41,7 +41,9 @@ class ChangeCommand extends ContainerAwareCommand {
                     $process = new Process("git checkout {$input->getOption('branch')} --quiet &> /dev/null");
                     $process->run();
 
-                    $exit = $process->isSuccessful();
+                    if($process->isSuccessful()){
+                        $exit = 0;
+                    }
                 }
             }
         }

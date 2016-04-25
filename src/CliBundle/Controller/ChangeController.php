@@ -28,7 +28,6 @@ class ChangeController extends FOSRestController
 
         $exitCode = $this->_get_command_exit_code($slug, $branch);
         $json = new Json();
-        var_dump($exitCode);
 
         if($exitCode === 0){
             $json->setMessage("It worked");
