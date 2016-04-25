@@ -31,15 +31,22 @@ class RequestAuthorization {
         $key = $this->_request->headers->get('x-vermillion-key');
         $user = $this->_request->headers->get('from');
 
-        $this->success = $this->_hash_equals($key, sha1($secret));
-
         // validate api key
-        
-        // validate user
+        if(false === is_null($key)){
+            $this->success = $this->_hash_equals($key, hash('sha256', $secret));
+        }
 
         if(!$this->success){
             $this->message = "Invalid authentication key";
         }
+
+        // validate user
+        // - pull user info from database, see if they are allowed to use the
+        //   provided key
+        //   - if so, $this->success == true
+        // if(false === is_null($user)){
+        //     $this->success = $something;
+        // }
 
         $this->_logger->info("Request received from ". $user ." (". $key .")");
 
