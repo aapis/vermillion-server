@@ -31,24 +31,38 @@ class RequestAuthorization {
         $key = $this->_request->headers->get('x-vermillion-key');
         $user = $this->_request->headers->get('from');
 
+        $this->message = "Access denied";
+
         // validate api key
         if(false === is_null($key)){
-            $this->success = $this->_hash_equals($key, hash('sha256', $secret));
+            $valid_key = $this->_hash_equals($key, hash('sha256', $secret));
+
+            if($valid_key){
+                // validate user
+                // TODO: future feature, for now just having the FROM field
+                //       populated is enough
+                // - pull user info from database, see if they are allowed to
+                //   use the provided key
+                //   - if so, $this->success == true
+                if(false === is_null($user)){
+                    $valid_user = true;
+
+                    if($valid_user){
+                        $this->success = true;
+                        $this->message = "User is authorized";
+                    }else {
+                        $this->message = "Invalid user";
+                    }
+                }else {
+                    // default username so logs are easier to parse
+                    $user = 'ANONYMOUS_USER';
+                }
+            }else {
+                $this->message = "Invalid authentication key";
+            }
         }
 
-        if(!$this->success){
-            $this->message = "Invalid authentication key";
-        }
-
-        // validate user
-        // - pull user info from database, see if they are allowed to use the
-        //   provided key
-        //   - if so, $this->success == true
-        // if(false === is_null($user)){
-        //     $this->success = $something;
-        // }
-
-        $this->_logger->info("Request received from ". $user ." (". $key .")");
+        $this->_logger->info("Request received from {$user} ({$key}) with message {$this->message}");
 
         return $this;
     }
