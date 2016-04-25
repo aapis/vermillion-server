@@ -9,4 +9,4 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     request_authorization:
         class: CliBundle\Controller\RequestAuthorization
-        arguments: ["%secret%"]
+        arguments: ["%secret%", "@monolog.logger"]

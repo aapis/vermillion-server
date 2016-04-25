@@ -2,6 +2,7 @@
 
 namespace CliBundle\Controller;
 
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestAuthorization {
@@ -9,9 +10,11 @@ class RequestAuthorization {
     protected $message;
 
     private $_request;
+    private $_logger;
 
-    public function __construct($secret){
+    public function __construct($secret, Logger $logger){
         $this->_request = Request::createFromGlobals();
+        $this->_logger = $logger;
 
         return $this->_validateKey($secret);
     }
@@ -26,12 +29,19 @@ class RequestAuthorization {
 
     private function _validateKey($secret){
         $key = $this->_request->headers->get('x-vermillion-key');
+        $user = $this->_request->headers->get('from');
 
         $this->success = $this->_hash_equals($key, sha1($secret));
+
+        // validate api key
+        
+        // validate user
 
         if(!$this->success){
             $this->message = "Invalid authentication key";
         }
+
+        $this->_logger->info("Request received from ". $user ." (". $key .")");
 
         return $this;
     }

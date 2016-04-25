@@ -100,3 +100,11 @@ fos_rest:
     allowed_methods_listener: true
     access_denied_listener:
         json: true
+
+monolog:
+    handlers:
+        app:
+            level:    info
+            type:     stream
+            path:     '%kernel.logs_dir%/requests.log'
+            channels: [app]
