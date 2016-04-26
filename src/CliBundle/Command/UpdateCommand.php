@@ -25,7 +25,7 @@ class UpdateCommand extends ContainerAwareCommand {
         // - git pull
         $container = $this->getApplication()->getKernel()->getContainer();
         $search_path = $container->getParameter('kernel.root_dir');
-        $directories = Yaml::parse(file_get_contents($search_path .'/../src/CliBundle/Resources/config/directories.yml'));
+        $directories = Yaml::parse(file_get_contents('/tmp/vermillion-directories.yml'));
         $site = $input->getOption('site');
         $exit = 1;
 
