@@ -27,7 +27,6 @@ class UpdateController extends FOSRestController
         }
 
         $exitCode = $this->_get_command_exit_code($slug);
-        var_dump($exitCode);
         $json = new Json();
 
         if($exitCode === 0){
@@ -55,9 +54,9 @@ class UpdateController extends FOSRestController
            '--site' => $slug,
         ));
 
-        $output = new BufferedOutput();
-        $application->run($input, $output);
-        var_dump($output->fetch());
+        // $output = new BufferedOutput();
+        // $application->run($input, $output);
+        // var_dump($output->fetch());
 
         return $application->run($input, new BufferedOutput());
     }
