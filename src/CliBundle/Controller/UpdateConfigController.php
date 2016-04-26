@@ -53,6 +53,10 @@ class UpdateConfigController extends FOSRestController
            'command' => self::COMMAND,
         ));
 
+        // $output = new BufferedOutput();
+        // $application->run($input, $output);
+        // var_dump($output->fetch());
+
         return $application->run($input, new BufferedOutput());
     }
 }

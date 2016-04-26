@@ -17,19 +17,30 @@ class UpdateConfigCommand extends ContainerAwareCommand {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output){
+        $container = $this->getApplication()->getKernel()->getContainer();
+        $search_path = $container->getParameter('kernel.root_dir');
+
         // find and format the contents of the config file
-        $directories = $this->_build_directory_list();
+        $directories = $this->_build_directory_list($search_path);
         $formatted = "---\n";
         $formatted .= sprintf("- \"%s\"", implode($directories, "\"\n- \""));
 
         // find the configuration file
-        $configDirectories = array(__DIR__.'/../Resources/config');
-        $locator = new FileLocator($configDirectories);
-        $file = $locator->locate('directories.yml', null, false);
+        try {
+            $configDirectories = array($search_path.'/../src/CliBundle/Resources/config');
+            $locator = new FileLocator($configDirectories);
+            $file = $locator->locate('directories.yml', null, false);
 
-        $fh = fopen($file[0], 'w');
-        $result = fwrite($fh, $formatted);
-        fclose($fh);
+            $fh = fopen($file[0], 'w');
+            $result = fwrite($fh, $formatted);
+            fclose($fh);
+        } catch(\InvalidArgumentException $e) {
+            $new_file = $search_path .'/../src/CliBundle/Resources/config/directories.yml';
+
+            $fh = fopen($new_file, 'w');
+            $result = fwrite($fh, $formatted);
+            fclose($fh);
+        }
 
         // since we are returning numeric exit codes we must account for 0 bytes
         // being written
@@ -40,8 +51,8 @@ class UpdateConfigCommand extends ContainerAwareCommand {
         }
     }
 
-    private function _build_directory_list(){
-        $search_path = '/Users/prieber/Work/';
+    private function _build_directory_list($search_path){
+        $search_path = "{$search_path}/../../";
         $paths = array();
 
         chdir($search_path);

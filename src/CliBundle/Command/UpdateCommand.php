@@ -23,7 +23,8 @@ class UpdateCommand extends ContainerAwareCommand {
         // - chdir to the requested site
         //  - use the config/directories.yml file to determine where
         // - git pull
-        $search_path = getcwd();
+        $container = $this->getApplication()->getKernel()->getContainer();
+        $search_path = $container->getParameter('kernel.root_dir');
         $directories = Yaml::parse(file_get_contents($search_path .'/../src/CliBundle/Resources/config/directories.yml'));
         $site = $input->getOption('site');
         $exit = 1;
