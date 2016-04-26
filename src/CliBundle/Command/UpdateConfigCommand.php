@@ -21,7 +21,6 @@ class UpdateConfigCommand extends ContainerAwareCommand {
         // get data from parameters.yml
         $container = $this->getApplication()->getKernel()->getContainer();
         $search_path = $container->getParameter('base_path');
-        var_dump($search_path);
 
         // find and format the contents of the config file
         $directories = $this->_build_directory_list($search_path);
