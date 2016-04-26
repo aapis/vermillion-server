@@ -20,15 +20,9 @@ class UpdateCommand extends ContainerAwareCommand {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output){
-        // - chdir to the requested site
-        //  - use the config/directories.yml file to determine where
-        // - git pull
-        $container = $this->getApplication()->getKernel()->getContainer();
-        $search_path = $container->getParameter('kernel.root_dir');
         $directories = Yaml::parse(file_get_contents('/tmp/vermillion-directories.yml'));
         $site = $input->getOption('site');
         $exit = 1;
-        var_dump($site, $directories);
 
         for($i = 0; $i < sizeof($directories); $i++){
             preg_match('/'. preg_quote($site) .'\b/', $directories[$i], $matches);

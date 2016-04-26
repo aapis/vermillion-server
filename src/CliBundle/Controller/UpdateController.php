@@ -27,6 +27,7 @@ class UpdateController extends FOSRestController
         }
 
         $exitCode = $this->_get_command_exit_code($slug);
+        var_dump($exitCode);
         $json = new Json();
 
         if($exitCode === 0){
