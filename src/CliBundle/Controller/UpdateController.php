@@ -54,6 +54,10 @@ class UpdateController extends FOSRestController
            '--site' => $slug,
         ));
 
+        $output = new BufferedOutput();
+        $application->run($input, $output);
+        var_dump($output->fetch());
+
         return $application->run($input, new BufferedOutput());
     }
 }
