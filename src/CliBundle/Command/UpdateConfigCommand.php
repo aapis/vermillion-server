@@ -18,8 +18,9 @@ class UpdateConfigCommand extends ContainerAwareCommand {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output){
+        // get data from parameters.yml
         $container = $this->getApplication()->getKernel()->getContainer();
-        $search_path = $container->getParameter('kernel.root_dir');
+        $search_path = $container->getParameter('base_path');
 
         // find and format the contents of the config file
         $directories = $this->_build_directory_list($search_path);
@@ -41,7 +42,6 @@ class UpdateConfigCommand extends ContainerAwareCommand {
     }
 
     private function _build_directory_list($search_path){
-        $search_path = "{$search_path}/../../";
         $paths = array();
 
         chdir($search_path);
