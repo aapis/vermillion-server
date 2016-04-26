@@ -28,6 +28,7 @@ class UpdateCommand extends ContainerAwareCommand {
         $directories = Yaml::parse(file_get_contents('/tmp/vermillion-directories.yml'));
         $site = $input->getOption('site');
         $exit = 1;
+        var_dump($site, $directories);
 
         for($i = 0; $i < sizeof($directories); $i++){
             preg_match('/'. preg_quote($site) .'\b/', $directories[$i], $matches);
