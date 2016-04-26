@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 
 class UpdateConfigCommand extends ContainerAwareCommand {
     protected function configure(){
@@ -26,21 +27,9 @@ class UpdateConfigCommand extends ContainerAwareCommand {
         $formatted .= sprintf("- \"%s\"", implode($directories, "\"\n- \""));
 
         // find the configuration file
-        try {
-            $configDirectories = array($search_path.'/../src/CliBundle/Resources/config');
-            $locator = new FileLocator($configDirectories);
-            $file = $locator->locate('directories.yml', null, false);
-
-            $fh = fopen($file[0], 'w');
-            $result = fwrite($fh, $formatted);
-            fclose($fh);
-        } catch(\InvalidArgumentException $e) {
-            $new_file = $search_path .'/../src/CliBundle/Resources/config/directories.yml';
-
-            $fh = fopen($new_file, 'w');
-            $result = fwrite($fh, $formatted);
-            fclose($fh);
-        }
+        $fh = fopen('/tmp/vermillion-directories.yml', 'w');
+        $result = fwrite($fh, $formatted);
+        fclose($fh);
 
         // since we are returning numeric exit codes we must account for 0 bytes
         // being written
