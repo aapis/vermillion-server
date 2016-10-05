@@ -6,3 +6,8 @@ api_update:
     path: /api/update/{slug}
     defaults: { _controller: CliBundle:UpdateController:index }
     methods: [POST]
+
+api_change_branch:
+    path: /api/change_branch/{slug}/
+    methods: [POST]
+    defaults: { _controller: CliBundle:Change:index }

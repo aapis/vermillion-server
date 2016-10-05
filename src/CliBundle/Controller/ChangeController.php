@@ -10,12 +10,13 @@ use Symfony\Component\Console\Output\NullOutput;
 use FOS\RestBundle\Controller\FOSRestController;
 use JMS\Serializer\SerializerBuilder;
 use CliBundle\Entity\Json;
+use Symfony\Component\HttpFoundation\Request;
 
 class ChangeController extends FOSRestController
 {
     const COMMAND = 'vermillion:change-branch';
 
-    public function indexAction($slug, $branch) {
+    public function indexAction($slug, $branch = null) {
         $verify = $this->get('request_authorization');
         if(!$verify->authenticated()){
             $error = new Json();
@@ -26,6 +27,8 @@ class ChangeController extends FOSRestController
             return $this->handleView($error_view);
         }
 
+        $req = Request::createFromGlobals();
+        $branch = $req->query->get("to");
         $exitCode = $this->_get_command_exit_code($slug, $branch);
         $json = new Json();
 
@@ -46,6 +49,11 @@ class ChangeController extends FOSRestController
                 $json->setMessage("It worked");
                 $json->setTitle("Success");
                 $json->setCode(200);
+                break;
+            case 5:
+                $json->setMessage("Invalid branch requested");
+                $json->setTitle("Error");
+                $json->setCode(400);
                 break;
             case 1:
             case 4:

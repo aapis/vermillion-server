@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Process\Process;
+use Symfony\Component\HttpFoundation\Request;
 
 class ChangeCommand extends ContainerAwareCommand {
     protected function configure(){
@@ -27,7 +28,7 @@ class ChangeCommand extends ContainerAwareCommand {
             return 2;
         }
 
-        $directories = Yaml::parse(file_get_contents('/tmp/vermillion-directories.yml'));
+        $directories = Yaml::parse($file);
         $site = $input->getOption('site');
 
         if(sizeof($directories) === 0){
@@ -50,6 +51,8 @@ class ChangeCommand extends ContainerAwareCommand {
                             if($pull->isSuccessful()){
                                 $exit = 0;
                             }
+                        }else {
+                            $exit = 5;
                         }
                     }
                 }else {

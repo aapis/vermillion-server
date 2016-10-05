@@ -29,11 +29,11 @@ api_update_web:
 
 # change commands
 api_change_branch:
-    path: /api/change_branch/{slug}/{branch}
+    path: /api/change_branch/{slug}
     methods: [POST]
     defaults: { _controller: CliBundle:Change:index }
 
-api_change_branch_web:
-    path: /api/change_branch/{slug}/{branch}
-    methods: [GET]
-    defaults: { _controller: AppBundle:Change:index }
+# api_change_branch_web:
+#     path: /api/change_branch/{slug}/
+#     methods: [GET]
+#     defaults: { _controller: AppBundle:Change:index }
