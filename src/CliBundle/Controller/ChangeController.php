@@ -28,18 +28,7 @@ class ChangeController extends FOSRestController
         }
 
         $req = Request::createFromGlobals();
-        $branch = $req->query->get("to") || $_GET["to"];
-
-        if(!$branch || !$slug){
-            $error = new Json();
-            $error->setMessage("Missing required field data (branch or site/slug)\nBRANCH={$branch} & SLUG={$slug}");
-            $error->setCode(500);
-
-            $error_view = $this->view($error, $error->getCode());
-            return $this->handleView($error_view);
-        }
-
-
+        $branch = $req->query->get("to");
         $exitCode = $this->_get_command_exit_code($slug, $branch);
         $json = new Json();
 
