@@ -41,7 +41,7 @@ class ChangeCommand extends ContainerAwareCommand {
                     if(strlen($matches[0]) > 0){
                         chdir($directories[$i]);
 
-                        $checkout = new Process("git checkout {$input->getOption('branch')} --quiet &> /dev/null && git pull --quiet &> /dev/null");
+                        $checkout = new Process("git checkout {$input->getOption('branch')} --quiet &> /dev/null");
                         $checkout->run();
 
                         if($checkout->isSuccessful()){
