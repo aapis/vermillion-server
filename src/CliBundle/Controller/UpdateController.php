@@ -29,13 +29,17 @@ class UpdateController extends FOSRestController
         $json = new Json();
         $exitCode = $this->_get_command_exit_code($slug);
 
+        // since we can't trap exceptions thrown in shell commands,
+        // we check the return value and set the appropriate error message here
         switch($exitCode){
             case 2:
                 $json->setMessage("Configuration file not found, please run vermillion:update-config");
+                $json->setTitle("Error");
                 $json->setCode(400);
                 break;
             case 3:
                 $json->setMessage("There are no sites configured on this server.");
+                $json->setTitle("Error");
                 $json->setCode(400);
                 break;
             case 0:

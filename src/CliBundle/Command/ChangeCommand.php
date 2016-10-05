@@ -21,28 +21,39 @@ class ChangeCommand extends ContainerAwareCommand {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output){
-       // - chdir to the requested site
-        //  - use the config/directories.yml file to determine where
-        // - git pull
-        $container = $this->getApplication()->getKernel()->getContainer();
-        $search_path = $container->getParameter('kernel.root_dir');
-        $directories = Yaml::parse(file_get_contents('/tmp/vermillion-directories.yml'));
-        $site = $input->getOption('site');
         $exit = 1;
 
-        for($i = 0; $i < sizeof($directories); $i++){
-            preg_match('/'. preg_quote($site) .'\b/', $directories[$i], $matches);
+        if(!$file = @file_get_contents('/tmp/vermillion-directories.yml')){
+            return 2;
+        }
 
-            if(sizeof($matches) > 0){
-                if(strlen($matches[0]) > 0){
-                    chdir($directories[$i]);
-                    
-                    $process = new Process("git checkout {$input->getOption('branch')} --quiet &> /dev/null");
-                    $process->run();
+        $directories = Yaml::parse(file_get_contents('/tmp/vermillion-directories.yml'));
+        $site = $input->getOption('site');
 
-                    if($process->isSuccessful()){
-                        $exit = 0;
+        if(sizeof($directories) === 0){
+            return 3;
+        } else {
+            for($i = 0; $i < sizeof($directories); $i++){
+                preg_match('/'. preg_quote($site) .'\b/', $directories[$i], $matches);
+
+                if(sizeof($matches) > 0){
+                    if(strlen($matches[0]) > 0){
+                        chdir($directories[$i]);
+
+                        $checkout = new Process("git checkout {$input->getOption('branch')} --quiet &> /dev/null");
+                        $checkout->run();
+
+                        if($checkout->isSuccessful()){
+                            $pull = new Process("git pull --quiet &> /dev/null");
+                            $pull->run();
+
+                            if($pull->isSuccessful()){
+                                $exit = 0;
+                            }
+                        }
                     }
+                }else {
+                    $exit = 4;
                 }
             }
         }

@@ -29,14 +29,20 @@ class UpdateConfigController extends FOSRestController
         $exitCode = $this->_get_command_exit_code();
         $json = new Json();
 
-        if($exitCode === 0){
-            $json->setMessage("It worked");
-            $json->setTitle("Success");
-            $json->setCode(200);
-        }else {
-            $json->setMessage("An error occurred");
-            $json->setTitle(":(");
-            $json->setCode(400);
+        // since we can't trap exceptions thrown in shell commands,
+        // we check the return value and set the appropriate error message here
+        switch($exitCode){
+            case 0:
+                $json->setMessage("It worked");
+                $json->setTitle("Success");
+                $json->setCode(200);
+                break;
+            case 1:
+            default:
+                $json->setMessage("An error occurred while looking for directories");
+                $json->setTitle("Error");
+                $json->setCode(500);
+                break;
         }
 
         $view = $this->view($json, $json->getCode());
