@@ -26,17 +26,29 @@ class UpdateController extends FOSRestController
             return $this->handleView($error_view);
         }
 
-        $exitCode = $this->_get_command_exit_code($slug);
         $json = new Json();
+        $exitCode = $this->_get_command_exit_code($slug);
 
-        if($exitCode === 0){
-            $json->setMessage("It worked");
-            $json->setTitle("Success");
-            $json->setCode(200);
-        }else {
-            $json->setMessage("An error occurred");
-            $json->setTitle(":(");
-            $json->setCode(400);
+        switch($exitCode){
+            case 2:
+                $json->setMessage("Configuration file not found, please run vermillion:update-config");
+                $json->setCode(400);
+                break;
+            case 3:
+                $json->setMessage("There are no sites configured on this server.");
+                $json->setCode(400);
+                break;
+            case 0:
+                $json->setMessage("It worked");
+                $json->setTitle("Success");
+                $json->setCode(200);
+                break;
+            case 1:
+            case 4:
+            default:
+                $json->setMessage("Site not found in manifest");
+                $json->setCode(500);
+                break;
         }
 
         $view = $this->view($json, $json->getCode());
@@ -54,6 +66,7 @@ class UpdateController extends FOSRestController
            '--site' => $slug,
         ));
 
+        // FOR TESTING ONLY
         // $output = new BufferedOutput();
         // $application->run($input, $output);
         // var_dump($output->fetch());
