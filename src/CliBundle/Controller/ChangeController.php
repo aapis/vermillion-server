@@ -46,7 +46,7 @@ class ChangeController extends FOSRestController
                 $json->setCode(400);
                 break;
             case 0:
-                $json->setMessage("It worked");
+                $json->setMessage("Project is running on branch {$branch}");
                 $json->setTitle("Success");
                 $json->setCode(200);
                 break;
