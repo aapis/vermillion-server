@@ -51,6 +51,7 @@ class CreateController extends FOSRestController
             case 4:
             default:
                 $json->setMessage("Site not found in manifest");
+                $json->setTitle("Error");
                 $json->setCode(500);
                 break;
         }
