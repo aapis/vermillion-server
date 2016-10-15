@@ -46,7 +46,7 @@ class ChangeController extends FOSRestController
                 $json->setCode(400);
                 break;
             case 0:
-                $json->setMessage("It worked");
+                $json->setMessage(sprintf("Site now running branch %s", $branch));
                 $json->setTitle("Success");
                 $json->setCode(200);
                 break;

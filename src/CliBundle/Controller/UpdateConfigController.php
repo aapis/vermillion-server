@@ -33,7 +33,7 @@ class UpdateConfigController extends FOSRestController
         // we check the return value and set the appropriate error message here
         switch($exitCode){
             case 0:
-                $json->setMessage("It worked");
+                $json->setMessage("Configuration updated");
                 $json->setTitle("Success");
                 $json->setCode(200);
                 break;
