@@ -61,6 +61,8 @@ class RequestAuthorization {
             }else {
                 $this->message = "Invalid authentication key";
             }
+        }else {
+            $this->message = "Invalid authentication key";
         }
 
         // $this->_logger->info("Request received from {$user} ({$key}), using client {$ua},  with message {$this->message}");
