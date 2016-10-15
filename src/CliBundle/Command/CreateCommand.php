@@ -28,11 +28,15 @@ class CreateCommand extends ContainerAwareCommand {
         if($input){
             chdir($base_path);
 
-            $process = new Process("mkdir -p {$input} &> /dev/null");
-            $process->run();
+            if(!file_exists($input)){
+                $process = new Process("mkdir -p {$input} &> /dev/null");
+                $process->run();
 
-            if($process->isSuccessful()){
-                $exit = 0;
+                if($process->isSuccessful()){
+                    $exit = 0;
+                }
+            }else {
+                $exit = 3;
             }
         } else {
             $exit = 2;

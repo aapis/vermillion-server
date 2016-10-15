@@ -42,6 +42,11 @@ class CreateController extends FOSRestController
                 $json->setTitle("Success");
                 $json->setCode(200);
                 break;
+            case 3:
+                $json->setMessage("Directory already exists");
+                $json->setTitle("Error");
+                $json->setCode(400);
+                break;
             case 1:
             default:
                 $json->setMessage("Site not found in manifest");
