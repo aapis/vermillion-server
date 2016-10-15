@@ -37,3 +37,9 @@ api_change_branch:
 #     path: /api/change_branch/{slug}/
 #     methods: [GET]
 #     defaults: { _controller: AppBundle:Change:index }
+
+# create commands
+api_create:
+    path: /api/create/{slug}
+    methods: [POST]
+    defaults: { _controller: CliBundle:Create:index }

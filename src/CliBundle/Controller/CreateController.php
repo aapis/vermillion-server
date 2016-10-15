@@ -33,22 +33,16 @@ class CreateController extends FOSRestController
         // we check the return value and set the appropriate error message here
         switch($exitCode){
             case 2:
-                $json->setMessage("Configuration file not found, please run vermillion:update-config");
-                $json->setTitle("Error");
-                $json->setCode(400);
-                break;
-            case 3:
-                $json->setMessage("There are no sites configured on this server.");
+                $json->setMessage("Invalid input, cannot create directory");
                 $json->setTitle("Error");
                 $json->setCode(400);
                 break;
             case 0:
-                $json->setMessage("Directory /path/to/dir created");
+                $json->setMessage("Directory /path/to/{$slug} created");
                 $json->setTitle("Success");
                 $json->setCode(200);
                 break;
             case 1:
-            case 4:
             default:
                 $json->setMessage("Site not found in manifest");
                 $json->setTitle("Error");
@@ -68,7 +62,7 @@ class CreateController extends FOSRestController
 
         $input = new ArrayInput(array(
            'command' => self::COMMAND,
-           '--site' => $slug,
+           '--name' => $slug,
         ));
 
         // FOR TESTING ONLY

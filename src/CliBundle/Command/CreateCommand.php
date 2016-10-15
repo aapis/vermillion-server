@@ -22,34 +22,20 @@ class CreateCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output){
         $exit = 1;
 
-        if(!$file = @file_get_contents('/tmp/vermillion-directories.yml')){
-            return 2;
-        }
+        $input = $input->getOption('name');
+        $base_path = $this->getContainer()->getParameter("base_path");
 
-        $directories = Yaml::parse($file);
-        $site = $input->getOption('site');
+        if($input){
+            chdir($base_path);
 
-        if(sizeof($directories) === 0){
-            return 3;
-        }else {
-            for($i = 0; $i < sizeof($directories); $i++){
-                preg_match('/'. preg_quote($site) .'\b/', $directories[$i], $matches);
+            $process = new Process("mkdir -p {$input} &> /dev/null");
+            $process->run();
 
-                if(sizeof($matches) > 0){
-                    if(strlen($matches[0]) > 0){
-                        chdir($directories[$i]);
-
-                        $process = new Process('git pull --quiet &> /dev/null');
-                        $process->run();
-
-                        if($process->isSuccessful()){
-                            $exit = 0;
-                        }
-                    }
-                } else {
-                    $exit = 4;
-                }
+            if($process->isSuccessful()){
+                $exit = 0;
             }
+        } else {
+            $exit = 2;
         }
 
         return $exit;
