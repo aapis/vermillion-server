@@ -43,7 +43,7 @@ class UpdateController extends FOSRestController
                 $json->setCode(400);
                 break;
             case 0:
-                $json->setMessage("Latest updates downloaded");
+                $json->setMessage("Latest changes deployed");
                 $json->setTitle("Success");
                 $json->setCode(200);
                 break;
