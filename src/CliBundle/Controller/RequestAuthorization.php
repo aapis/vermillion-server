@@ -30,6 +30,7 @@ class RequestAuthorization {
     private function _validateKey($secret){
         $key = $this->_request->headers->get('x-vermillion-key');
         $user = $this->_request->headers->get('from');
+        $ua = $this->_request->headers->get('user-agent');
 
         $this->message = "Access denied";
 
@@ -62,7 +63,11 @@ class RequestAuthorization {
             }
         }
 
-        $this->_logger->info("Request received from {$user} ({$key}) with message {$this->message}");
+        // $this->_logger->info("Request received from {$user} ({$key}), using client {$ua},  with message {$this->message}");
+        $this->_logger->info("- {$user}");
+        $this->_logger->info("-- {$key}");
+        $this->_logger->info("-- {$ua}");
+        $this->_logger->info("-- {$this->message}");
 
         return $this;
     }
