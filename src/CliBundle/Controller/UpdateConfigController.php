@@ -39,7 +39,7 @@ class UpdateConfigController extends FOSRestController
                 break;
             case 1:
             default:
-                $json->setMessage("An error occurred while looking for directories");
+                $json->setMessage("Code 1: An error occurred while looking for directories");
                 $json->setTitle("Error");
                 $json->setCode(500);
                 break;

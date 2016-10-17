@@ -33,7 +33,7 @@ class CreateController extends FOSRestController
         // we check the return value and set the appropriate error message here
         switch($exitCode){
             case 2:
-                $json->setMessage("Invalid input, cannot create directory");
+                $json->setMessage("Code 1: Invalid input, cannot create directory");
                 $json->setTitle("Error");
                 $json->setCode(400);
                 break;
@@ -43,7 +43,7 @@ class CreateController extends FOSRestController
                 $json->setCode(200);
                 break;
             case 3:
-                $json->setMessage("Directory already exists");
+                $json->setMessage("Code 3: Directory not found");
                 $json->setTitle("Error");
                 $json->setCode(400);
                 break;

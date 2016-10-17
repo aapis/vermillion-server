@@ -36,12 +36,12 @@ class ChangeController extends FOSRestController
         // we check the return value and set the appropriate error message here
         switch($exitCode){
             case 2:
-                $json->setMessage("Configuration file not found, please run vermillion:update-config");
+                $json->setMessage("Code 1: Configuration file not found, please run vermillion:update-config");
                 $json->setTitle("Error");
                 $json->setCode(400);
                 break;
             case 3:
-                $json->setMessage("There are no sites configured on this server.");
+                $json->setMessage("Code 3: There are no sites configured on this server.");
                 $json->setTitle("Error");
                 $json->setCode(400);
                 break;
@@ -51,7 +51,7 @@ class ChangeController extends FOSRestController
                 $json->setCode(200);
                 break;
             case 5:
-                $json->setMessage("Invalid branch requested");
+                $json->setMessage("Code 5: Invalid branch requested");
                 $json->setTitle("Error");
                 $json->setCode(400);
                 break;
