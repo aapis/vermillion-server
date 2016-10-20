@@ -43,3 +43,9 @@ api_create:
     path: /api/create/{slug}
     methods: [POST]
     defaults: { _controller: CliBundle:Create:index }
+
+# configuration commands
+api_view_config:
+    path: /api/config/view
+    methods: [POST]
+    defaults: { _controller: CliBundle:Configuration:index }
