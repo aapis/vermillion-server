@@ -32,26 +32,42 @@ class UpdateCommand extends ContainerAwareCommand {
         if(sizeof($directories) === 0){
             return 3;
         }else {
-            for($i = 0; $i < sizeof($directories); $i++){
-                preg_match('/'. preg_quote($site) .'\b/', $directories[$i], $matches);
+            $match_data = $this->_match_data($site, $directories);
 
-                if(sizeof($matches) > 0){
-                    if(strlen($matches[0]) > 0){
-                        chdir($directories[$i]);
+            if($match_data[0]){
+                chdir($match_data[1]);
 
-                        $process = new Process('git pull --quiet &> /dev/null');
-                        $process->run();
+                $process = new Process('git pull --quiet &> /dev/null');
+                $process->run();
 
-                        if($process->isSuccessful()){
-                            $exit = 0;
-                        }
-                    }
-                } else {
-                    $exit = 4;
+                if($process->isSuccessful()){
+                    $exit = 0;
                 }
+            }else {
+                $exit = 4;
             }
         }
 
         return $exit;
+    }
+
+    private function _match_data($site, $pool){
+        $match = 0;
+        $directory = "";
+
+        for($i = 0; $i < sizeof($pool); $i++){
+            if(strpos($site, "+") !== false){
+                $site = str_replace("+", " ", $site);
+            }
+
+            $match = strpos($pool[$i], $site);
+
+            if($match !== false){
+                $directory = $pool[$i];
+                break;
+            }
+        }
+
+        return [($match !== false), $directory];
     }
 }
