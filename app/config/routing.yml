@@ -17,15 +17,15 @@ api_update_config:
     methods: [POST]
     defaults: { _controller: CliBundle:UpdateConfig:index }
 
-api_update_config_web:
-    path: /api/update_config/
-    methods: [GET]
-    defaults: { _controller: AppBundle:UpdateConfig:index }
+# api_update_config_web:
+#     path: /api/update_config/
+#     methods: [GET]
+#     defaults: { _controller: AppBundle:UpdateConfig:index }
 
-api_update_web:
-    path: /api/update/{slug}
-    methods: [GET]
-    defaults: { _controller: AppBundle:Update:index }
+# api_update_web:
+#     path: /api/update/{slug}
+#     methods: [GET]
+#     defaults: { _controller: AppBundle:Update:index }
 
 # change commands
 api_change_branch:
@@ -46,6 +46,6 @@ api_create:
 
 # configuration commands
 api_view_config:
-    path: /api/config/view
+    path: /api/config/view/
     methods: [POST]
     defaults: { _controller: CliBundle:Configuration:index }
