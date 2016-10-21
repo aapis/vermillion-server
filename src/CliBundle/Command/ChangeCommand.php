@@ -34,28 +34,44 @@ class ChangeCommand extends ContainerAwareCommand {
         if(sizeof($directories) === 0){
             return 3;
         } else {
-            for($i = 0; $i < sizeof($directories); $i++){
-                preg_match('/'. preg_quote($site) .'\b/', $directories[$i], $matches);
+            $match_data = $this->_match_data($site, $directories);
 
-                if(sizeof($matches) > 0){
-                    if(strlen($matches[0]) > 0){
-                        chdir($directories[$i]);
+            if($match_data[0]){
+                chdir($match_data[1]);
 
-                        $checkout = new Process("git checkout {$input->getOption('branch')} --quiet &> /dev/null");
-                        $checkout->run();
+                $checkout = new Process("git checkout {$input->getOption('branch')} --quiet &> /dev/null");
+                $checkout->run();
 
-                        if($checkout->isSuccessful()){
-                            $exit = 0;
-                        }else {
-                            $exit = 5;
-                        }
-                    }
+                if($checkout->isSuccessful()){
+                    $exit = 0;
                 }else {
-                    $exit = 4;
+                    $exit = 5;
                 }
+            }else {
+                $exit = 4;
             }
         }
 
         return $exit;
+    }
+
+    private function _match_data($site, $pool){
+        $match = 0;
+        $directory = "";
+
+        for($i = 0; $i < sizeof($pool); $i++){
+            if(strpos($site, "+") !== false){
+                $site = str_replace("+", " ", $site);
+            }
+
+            $match = strpos($pool[$i], $site);
+
+            if($match !== false){
+                $directory = $pool[$i];
+                break;
+            }
+        }
+
+        return [($match !== false), $directory];
     }
 }
